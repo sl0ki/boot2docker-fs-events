@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
+
 
 #include "fsevent.h"
 #include "network.h"
@@ -12,15 +14,23 @@
 // };
 
 char *host_path, *virt_path, *virt_ip;
-
+char last_file[1024];
+int last_time = 0;
 
 void handler(char *file) {
 
-  char virt_file[512];
+  char virt_file[1024];
 
+  // prevent possible recursion
+  if (time(NULL) - last_time < 2 && strcmp(last_file, file) == 0) return;
+  strcpy(last_file, file);
+  last_time = time(NULL);
+
+  // transform file name
   strcat(strcpy(virt_file, virt_path), &file[strlen(host_path)]);
 
   printf("chnaged: %s\n", virt_file);
+  // send filename to boot2docker VM
   udp_send(virt_file, strlen(virt_file));
 }
 

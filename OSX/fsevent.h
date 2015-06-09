@@ -14,8 +14,6 @@
 #ifndef NOTIFYWAIT_H
 #define NOTIFYWAIT_H
 
-#include <CoreFoundation/CoreFoundation.h>
-#include <CoreServices/CoreServices.h>
 
 typedef struct {
     size_t len;
