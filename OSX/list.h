@@ -14,6 +14,7 @@ void list_add(unsigned long hash) {
     Node *tmp = (Node*) malloc(sizeof(Node));
     count++;
     tmp->time = time(NULL);
+    tmp->hash = hash;
     tmp->next = head;
     head = tmp;
     printf("nodes: %d\n", count);

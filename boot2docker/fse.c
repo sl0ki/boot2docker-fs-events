@@ -27,18 +27,18 @@ void trigger_change_e (char *filename) {
 
 int main(int argc, char**argv)
 {
-   int sockfd,n;
+   int sockfd, n;
    struct sockaddr_in servaddr,cliaddr;
    socklen_t len;
-   char mesg[1000];
+   char mesg[1024];
 
    sockfd=socket(AF_INET,SOCK_DGRAM,0);
 
    bzero(&servaddr,sizeof(servaddr));
    servaddr.sin_family = AF_INET;
-   servaddr.sin_addr.s_addr=htonl(INADDR_ANY);
-   servaddr.sin_port=htons(49717);
-   bind(sockfd,(struct sockaddr *)&servaddr, sizeof(servaddr));
+   servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+   servaddr.sin_port = htons(49717);
+   bind(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr));
 
    for (;;)
    {

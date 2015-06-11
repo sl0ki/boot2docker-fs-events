@@ -1,5 +1,5 @@
 CC=cc
-CFLAGS=
+CFLAGS=-m32
 SOURCES=fse.c
 EXECUTABLE=fse
 
