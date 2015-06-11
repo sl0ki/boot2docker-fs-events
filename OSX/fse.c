@@ -5,26 +5,28 @@
 
 #include "fsevent.h"
 #include "network.h"
+#include "list.h"
 
-
-// struct finfo {
-//   char *filename;
-//   int flag;
-//   int mode;
-// };
 
 char *host_path, *virt_path, *virt_ip;
-char last_file[1024];
-int last_time = 0;
+
+unsigned long hash(char *str) {
+    unsigned long hash = 0;
+    int c;
+
+    while (c = *str++)
+        hash = c + (hash << 6) + (hash << 16) - hash;
+
+    return hash;
+}
 
 void handler(char *file) {
 
   char virt_file[1024];
 
-  // prevent possible recursion
-  if (time(NULL) - last_time < 2 && strcmp(last_file, file) == 0) return;
-  strcpy(last_file, file);
-  last_time = time(NULL);
+  // prevent possible circular call
+  if (list_find(hash(file))) return;
+  list_add(hash(file));
 
   // transform file name
   strcat(strcpy(virt_file, virt_path), &file[strlen(host_path)]);
